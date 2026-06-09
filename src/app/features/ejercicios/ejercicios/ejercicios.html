@@ -1,0 +1,187 @@
+<div class="page-container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'"/>
+      <span class="brand-name">Gym<span class="highlight">Master</span></span>
+    </div>
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Ejercicios</h1>
+        <p class="page-subtitle">Gestiona los ejercicios del sistema</p>
+      </div>
+      <button class="btn-primary" (click)="nuevoEjercicio()">
+        <lucide-icon name="plus" [size]="16"></lucide-icon>
+        Nuevo Ejercicio
+      </button>
+    </div>
+
+    <!-- Alertas -->
+    @if (error) {
+      <div class="alert alert-error">
+        <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+        {{ error }}
+      </div>
+    }
+    @if (success) {
+      <div class="alert alert-success">
+        <lucide-icon name="circle-check" [size]="15"></lucide-icon>
+        {{ success }}
+      </div>
+    }
+
+    <!-- Formulario -->
+    @if (mostrarFormulario) {
+      <div class="form-card">
+        <h2>{{ ejercicioSeleccionado ? 'Editar Ejercicio' : 'Nuevo Ejercicio' }}</h2>
+        <form [formGroup]="ejercicioForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre" placeholder="Nombre del ejercicio"/>
+              @if (ejercicioForm.get('nombre')?.invalid && ejercicioForm.get('nombre')?.touched) {
+                <span class="error">El nombre es obligatorio</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Series</label>
+              <input type="number" formControlName="series" min="1"/>
+            </div>
+
+            <div class="form-group">
+              <label>Repeticiones</label>
+              <input type="text" formControlName="repeticiones" placeholder="Ej: 12, 30 min"/>
+            </div>
+
+            <div class="form-group">
+              <label>Peso (kg)</label>
+              <input type="number" formControlName="pesoKg" min="0"/>
+            </div>
+
+            <div class="form-group">
+              <label>Dia</label>
+              <select formControlName="dia">
+                <option value="">Selecciona un dia</option>
+                <option value="Lunes">Lunes</option>
+                <option value="Martes">Martes</option>
+                <option value="Miercoles">Miercoles</option>
+                <option value="Jueves">Jueves</option>
+                <option value="Viernes">Viernes</option>
+                <option value="Sabado">Sabado</option>
+                <option value="Domingo">Domingo</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>ID de la Rutina</label>
+              <input type="number" formControlName="rutinaId"/>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" [disabled]="ejercicioForm.invalid">
+              <lucide-icon name="save" [size]="15"></lucide-icon>
+              Guardar
+            </button>
+            <button type="button" class="btn-secondary" (click)="cancelar()">
+              <lucide-icon name="x" [size]="15"></lucide-icon>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    }
+
+    <!-- Buscador -->
+    <div class="search-container">
+      <lucide-icon name="search" [size]="16" class="search-icon"></lucide-icon>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar por nombre o dia..."
+        (input)="filtrar($event)"
+      />
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Series</th>
+            <th>Repeticiones</th>
+            <th>Peso (kg)</th>
+            <th>Dia</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ejercicio of ejerciciosPaginados(); track ejercicio.id) {
+            <tr>
+              <td><strong>{{ ejercicio.nombre }}</strong></td>
+              <td><span class="badge">{{ ejercicio.series }}</span></td>
+              <td><span class="badge">{{ ejercicio.repeticiones }}</span></td>
+              <td><span class="badge">{{ ejercicio.pesoKg }} kg</span></td>
+              <td><span class="dia-badge">{{ ejercicio.dia }}</span></td>
+              <td class="acciones-col">
+                <button class="btn-edit" (click)="editarEjercicio(ejercicio)">
+                  <lucide-icon name="pencil" [size]="13"></lucide-icon>
+                  Editar
+                </button>
+                <button class="btn-delete" (click)="eliminarEjercicio(ejercicio.id)">
+                  <lucide-icon name="trash-2" [size]="13"></lucide-icon>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (ejerciciosFiltrados.length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="search" [size]="32" color="#88c527"></lucide-icon>
+          <p>No se encontraron ejercicios con ese criterio.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Paginacion -->
+    @if (totalPaginas() > 1) {
+      <div class="pagination">
+        <button class="page-btn nav-btn"
+          [disabled]="paginaActual === 1"
+          (click)="irAPagina(paginaActual - 1)">
+          <lucide-icon name="chevron-left" [size]="16"></lucide-icon>
+        </button>
+        @for (p of getPaginas(); track p) {
+          <button class="page-btn" [class.active]="p === paginaActual"
+            (click)="irAPagina(p)">
+            {{ p }}
+          </button>
+        }
+        <button class="page-btn nav-btn"
+          [disabled]="paginaActual === totalPaginas()"
+          (click)="irAPagina(paginaActual + 1)">
+          <lucide-icon name="chevron-right" [size]="16"></lucide-icon>
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

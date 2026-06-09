@@ -1,0 +1,156 @@
+<div class="page-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'"/>
+      <span class="brand-name">Gym<span class="highlight">Master</span></span>
+    </div>
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    @if (error) {
+      <div class="alert alert-error">
+        <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+        {{ error }}
+      </div>
+    }
+
+    <!-- Vista lista de clientes -->
+    @if (vistaActiva === 'lista') {
+      <div class="page-header">
+        <div>
+          <h1>Clientes</h1>
+          <p class="page-subtitle">Gestiona los clientes del sistema</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cliente of clientes; track cliente.id) {
+              <tr>
+                <td><strong>{{ cliente.nombre }}</strong></td>
+                <td>{{ cliente.email }}</td>
+                <td class="acciones-col">
+                  <button class="btn-ver-perfil" (click)="verPerfil(cliente)">
+                    <lucide-icon name="user" [size]="13"></lucide-icon>
+                    Ver Perfil
+                  </button>
+                  <button class="btn-ver-progreso" (click)="verProgreso(cliente)">
+                    <lucide-icon name="trending-up" [size]="13"></lucide-icon>
+                    Ver Progreso
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- Vista perfil del cliente -->
+    @if (vistaActiva === 'perfil' && clienteSeleccionado) {
+      <div class="page-header">
+        <div>
+          <h1>Perfil de {{ clienteSeleccionado.nombre }}</h1>
+          <p class="page-subtitle">Información personal del cliente</p>
+        </div>
+        <button class="btn-secondary" (click)="volver()">
+          <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+          Volver
+        </button>
+      </div>
+
+      @if (perfilCliente) {
+        <div class="perfil-card">
+          <div class="perfil-header">
+            <lucide-icon name="circle-user" [size]="44" color="#88c527"></lucide-icon>
+            <h2>{{ clienteSeleccionado.nombre }}</h2>
+          </div>
+          <div class="perfil-datos">
+            <div class="dato">
+              <span class="dato-label">Edad</span>
+              <span class="dato-valor">{{ perfilCliente.edad }} años</span>
+            </div>
+            <div class="dato">
+              <span class="dato-label">Peso</span>
+              <span class="dato-valor">{{ perfilCliente.peso }} kg</span>
+            </div>
+            <div class="dato">
+              <span class="dato-label">Altura</span>
+              <span class="dato-valor">{{ perfilCliente.altura }} cm</span>
+            </div>
+            <div class="dato">
+              <span class="dato-label">Objetivo</span>
+              <span class="dato-valor">{{ perfilCliente.objetivo }}</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (!perfilCliente) {
+        <div class="empty-state">
+          <lucide-icon name="user-round-x" [size]="32" color="#88c527"></lucide-icon>
+          <p>Este cliente no tiene perfil registrado aún.</p>
+        </div>
+      }
+    }
+
+    <!-- Vista progreso del cliente -->
+    @if (vistaActiva === 'progreso' && clienteSeleccionado) {
+      <div class="page-header">
+        <div>
+          <h1>Progreso de {{ clienteSeleccionado.nombre }}</h1>
+          <p class="page-subtitle">Historial de registros de progreso</p>
+        </div>
+        <button class="btn-secondary" (click)="volver()">
+          <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+          Volver
+        </button>
+      </div>
+
+      @if (progresosCliente.length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="trending-up" [size]="32" color="#88c527"></lucide-icon>
+          <p>Este cliente no tiene registros de progreso aún.</p>
+        </div>
+      }
+
+      @if (progresosCliente.length > 0) {
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Peso (kg)</th>
+                <th>Notas</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (registro of progresosCliente; track registro.id) {
+                <tr>
+                  <td><span class="dia-badge">{{ registro.fecha | date:'dd/MM/yyyy' }}</span></td>
+                  <td><span class="badge">{{ registro.peso }} kg</span></td>
+                  <td>{{ registro.notas }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+  </div>
+</div>

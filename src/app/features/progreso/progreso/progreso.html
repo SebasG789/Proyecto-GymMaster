@@ -1,0 +1,116 @@
+<div class="page-container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'"/>
+      <lucide-icon name="dumbbell" [size]="20" color="#88c527"></lucide-icon>
+      <span class="brand-name">Gym<span class="highlight">Master</span></span>
+    </div>
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Mi Progreso</h1>
+        <p class="page-subtitle">Registra y revisa tu evolucion</p>
+      </div>
+      <button class="btn-primary" (click)="nuevoRegistro()">
+        <lucide-icon name="plus" [size]="16"></lucide-icon>
+        Nuevo Registro
+      </button>
+    </div>
+
+    <!-- Alertas -->
+    @if (error) {
+      <div class="alert alert-error">
+        <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+        {{ error }}
+      </div>
+    }
+    @if (success) {
+      <div class="alert alert-success">
+        <lucide-icon name="circle-check" [size]="15"></lucide-icon>
+        {{ success }}
+      </div>
+    }
+
+    <!-- Formulario -->
+    @if (mostrarFormulario) {
+      <div class="form-card">
+        <h2>{{ registroSeleccionado ? 'Editar Registro' : 'Nuevo Registro' }}</h2>
+        <form [formGroup]="progresoForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Peso (kg)</label>
+              <input type="number" formControlName="peso" min="1"/>
+              @if (progresoForm.get('peso')?.invalid && progresoForm.get('peso')?.touched) {
+                <span class="error">El peso es obligatorio</span>
+              }
+            </div>
+
+            <div class="form-group full-width">
+              <label>Notas</label>
+              <textarea formControlName="notas" placeholder="Observaciones de la sesion"></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" [disabled]="progresoForm.invalid">
+              <lucide-icon name="save" [size]="15"></lucide-icon>
+              Guardar
+            </button>
+            <button type="button" class="btn-secondary" (click)="cancelar()">
+              <lucide-icon name="x" [size]="15"></lucide-icon>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    }
+
+    <!-- Tabla -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Peso (kg)</th>
+            <th>Notas</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (registro of registros$ | async; track registro.id) {
+            <tr>
+              <td>
+                <span class="fecha-badge">
+                  <lucide-icon name="calendar" [size]="13"></lucide-icon>
+                  {{ registro.fecha | date:'dd/MM/yyyy' }}
+                </span>
+              </td>
+              <td><span class="badge">{{ registro.peso }} kg</span></td>
+              <td class="notas-col">{{ registro.notas }}</td>
+              <td>
+                <button class="btn-delete" (click)="eliminarRegistro(registro.id)">
+                  <lucide-icon name="trash-2" [size]="13"></lucide-icon>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

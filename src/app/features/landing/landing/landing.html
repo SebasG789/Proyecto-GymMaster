@@ -1,0 +1,172 @@
+<div class="landing-container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="GymMaster Logo" class="brand-logo"/>
+      <span class="brand-name">GymMaster</span>
+    </div>
+    <div class="navbar-links">
+      <a (click)="scrollTo('servicios')">Servicios</a>
+      <a (click)="scrollTo('nosotros')">Nosotros</a>
+    </div>
+    <div class="navbar-actions">
+      <a routerLink="/auth/login" class="btn-login">Iniciar Sesión</a>
+      <a routerLink="/auth/register" class="btn-register">Regístrate Ahora</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <lucide-icon name="dumbbell" [size]="16"></lucide-icon>
+        Tu mejor versión comienza aquí
+      </div>
+      <h1>Supera tus <span class="highlight">límites</span> y alcanza tu mejor versión</h1>
+      <p>Entrena con los mejores entrenadores, sigue tu progreso y transforma tu cuerpo con un plan personalizado.</p>
+      <div class="hero-buttons">
+        <a routerLink="/auth/register" class="btn-primary">Regístrate Gratis</a>
+        <a routerLink="/auth/login" class="btn-outline">Iniciar Sesión</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">500+</span>
+          <span class="stat-label">Clientes activos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">50+</span>
+          <span class="stat-label">Entrenadores</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">95%</span>
+          <span class="stat-label">Satisfacción</span>
+        </div>
+      </div>
+    </div>
+    <div class="floating-card card-1">
+      <lucide-icon name="trending-up" [size]="22" color="#88c527"></lucide-icon>
+      <div>
+        <p class="card-title">Progreso</p>
+        <p class="card-sub">+12kg este mes</p>
+      </div>
+    </div>
+    <div class="floating-card card-2">
+      <lucide-icon name="target" [size]="22" color="#88c527"></lucide-icon>
+      <div>
+        <p class="card-title">Objetivo</p>
+        <p class="card-sub">Ganar músculo</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section class="servicios" id="servicios">
+    <div class="section-header">
+      <span class="section-badge">Nuestros Servicios</span>
+      <h2>Todo lo que necesitas para <span class="highlight">transformarte</span></h2>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card">
+        <div class="servicio-icon">
+          <lucide-icon name="dumbbell" [size]="40" color="#88c527"></lucide-icon>
+        </div>
+        <h3>Entrenamiento Personalizado</h3>
+        <p>Rutinas diseñadas específicamente para tus objetivos y nivel de condición física.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">
+          <lucide-icon name="heart-pulse" [size]="40" color="#88c527"></lucide-icon>
+        </div>
+        <h3>Mejora tu Salud</h3>
+        <p>Seguimiento constante de tu progreso para mantenerte motivado y en camino.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">
+          <lucide-icon name="zap" [size]="40" color="#88c527"></lucide-icon>
+        </div>
+        <h3>Aumenta tu Fuerza</h3>
+        <p>Programas especializados para ganar masa muscular y mejorar tu rendimiento.</p>
+      </div>
+      <div class="servicio-card">
+        <div class="servicio-icon">
+          <lucide-icon name="target" [size]="40" color="#88c527"></lucide-icon>
+        </div>
+        <h3>Alcanza tus Objetivos</h3>
+        <p>Con nuestro sistema de seguimiento llegarás a donde quieres estar más rápido.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nosotros -->
+  <section class="nosotros" id="nosotros">
+    <div class="nosotros-content">
+      <span class="section-badge">Sobre Nosotros</span>
+      <h2>¿Por qué elegir <span class="highlight">GymMaster</span>?</h2>
+      <p>Somos más que un gimnasio. Somos tu comunidad de transformación física y mental. Con tecnología de punta y entrenadores certificados, te acompañamos en cada paso de tu camino.</p>
+      <div class="nosotros-features">
+        <div class="feature">
+          <span class="feature-icon">
+            <lucide-icon name="circle-check" [size]="20" color="#88c527"></lucide-icon>
+          </span>
+          <span>Entrenadores certificados</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">
+            <lucide-icon name="circle-check" [size]="20" color="#88c527"></lucide-icon>
+          </span>
+          <span>Seguimiento personalizado</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">
+            <lucide-icon name="circle-check" [size]="20" color="#88c527"></lucide-icon>
+          </span>
+          <span>Rutinas adaptadas a ti</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">
+            <lucide-icon name="circle-check" [size]="20" color="#88c527"></lucide-icon>
+          </span>
+          <span>Comunidad motivadora</span>
+        </div>
+      </div>
+      <a routerLink="/auth/register" class="btn-primary">Únete ahora</a>
+    </div>
+    <div class="nosotros-image">
+      <div class="nosotros-img-container">
+        <img src="/images/Gym.png" alt="Entrenadores GymMaster"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <img src="/images/Logo.png" alt="GymMaster Logo" class="brand-logo"/>
+      <span class="brand-name">GymMaster</span>
+    </div>
+    <div class="footer-info">
+      <span>
+        <lucide-icon name="map-pin" [size]="14" color="#88c527"></lucide-icon>
+        Calle Principal #123
+      </span>
+      <span>
+        <lucide-icon name="clock" [size]="14" color="#88c527"></lucide-icon>
+        Lun - Sab: 5am - 10pm
+      </span>
+      <span>
+        <lucide-icon name="mail" [size]="14" color="#88c527"></lucide-icon>
+        info&#64;gymmaster.com
+      </span>
+      <span>
+        <lucide-icon name="phone" [size]="14" color="#88c527"></lucide-icon>
+        +57 300 123 4567
+      </span>
+    </div>
+    <p class="footer-copy">© 2026 GymMaster. Todos los derechos reservados.</p>
+  </footer>
+
+</div>

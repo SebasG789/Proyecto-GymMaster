@@ -1,0 +1,148 @@
+<div class="page-container">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'"/>
+      <span class="brand-name">Gym<span class="highlight">Master</span></span>
+    </div>
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1>Gestion de Usuarios</h1>
+        <p class="page-subtitle">Administra los usuarios del sistema</p>
+      </div>
+    </div>
+
+    <!-- Alertas -->
+    @if (error) {
+      <div class="alert alert-error">
+        <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+        {{ error }}
+      </div>
+    }
+    @if (success) {
+      <div class="alert alert-success">
+        <lucide-icon name="circle-check" [size]="15"></lucide-icon>
+        {{ success }}
+      </div>
+    }
+
+    <!-- Formulario -->
+    @if (mostrarFormulario) {
+      <div class="form-card">
+        <h2>Editar Usuario</h2>
+        <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" formControlName="nombre"/>
+              @if (usuarioForm.get('nombre')?.invalid && usuarioForm.get('nombre')?.touched) {
+                <span class="error">El nombre es obligatorio</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" formControlName="email"/>
+              @if (usuarioForm.get('email')?.invalid && usuarioForm.get('email')?.touched) {
+                <span class="error">Email invalido</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Rol</label>
+              <select formControlName="rol">
+                <option value="Cliente">Cliente</option>
+                <option value="Entrenador">Entrenador</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-primary" [disabled]="usuarioForm.invalid">
+              <lucide-icon name="save" [size]="15"></lucide-icon>
+              Guardar
+            </button>
+            <button type="button" class="btn-secondary" (click)="cancelar()">
+              <lucide-icon name="x" [size]="15"></lucide-icon>
+              Cancelar
+            </button>
+          </div>
+
+        </form>
+      </div>
+    }
+
+    <!-- Buscador -->
+    <div class="search-container">
+      <lucide-icon name="search" [size]="16" class="search-icon"></lucide-icon>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar por nombre o email..."
+        (input)="filtrar($event)"
+      />
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Fecha Registro</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuariosFiltrados; track usuario.id) {
+            <tr>
+              <td><span class="id-badge">{{ usuario.id }}</span></td>
+              <td><strong>{{ usuario.nombre }}</strong></td>
+              <td class="email-col">{{ usuario.email }}</td>
+              <td>
+                <span [class]="'badge badge-' + usuario.rol.toLowerCase()">
+                  {{ usuario.rol }}
+                </span>
+              </td>
+              <td>{{ usuario.fechaRegistro | date:'dd/MM/yyyy' }}</td>
+              <td class="acciones-col">
+                <button class="btn-edit" (click)="editarUsuario(usuario)">
+                  <lucide-icon name="pencil" [size]="13"></lucide-icon>
+                  Editar
+                </button>
+                <button class="btn-delete" (click)="eliminarUsuario(usuario.id)">
+                  <lucide-icon name="trash-2" [size]="13"></lucide-icon>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      @if (usuariosFiltrados.length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="search" [size]="32" color="#88c527"></lucide-icon>
+          <p>No se encontraron usuarios con ese criterio.</p>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

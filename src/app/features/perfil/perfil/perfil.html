@@ -1,0 +1,192 @@
+<div class="page-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'" />
+
+      <span class="brand-name">
+        Gym<span class="highlight">Master</span>
+      </span>
+    </div>
+
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    <div class="page-header">
+
+      <div>
+        <h1>Mi Perfil</h1>
+        <p class="page-subtitle">Tu información personal</p>
+      </div>
+
+      @if (tienePerfil && !mostrarFormulario) {
+      <button class="btn-primary" (click)="editarPerfil()">
+        <lucide-icon name="pencil" [size]="15"></lucide-icon>
+        Editar Perfil
+      </button>
+      }
+
+    </div>
+
+    @if (error) {
+    <div class="alert alert-error">
+      <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+      {{ error }}
+    </div>
+    }
+
+    @if (success) {
+    <div class="alert alert-success">
+      <lucide-icon name="circle-check" [size]="15"></lucide-icon>
+      {{ success }}
+    </div>
+    }
+
+    @if (mostrarFormulario) {
+
+    <div class="form-card">
+
+      <h2>
+        {{ tienePerfil ? 'Editar Perfil' : 'Completa tu Perfil' }}
+      </h2>
+
+      <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Edad</label>
+
+            <input type="number" formControlName="edad" min="1" max="100" placeholder="Ej: 25" />
+
+            @if (perfilForm.get('edad')?.invalid && perfilForm.get('edad')?.touched) {
+            <span class="error">
+              La edad es obligatoria
+            </span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Peso (kg)</label>
+
+            <input type="number" formControlName="peso" min="1" placeholder="Ej: 70" />
+
+            @if (perfilForm.get('peso')?.invalid && perfilForm.get('peso')?.touched) {
+            <span class="error">
+              El peso es obligatorio
+            </span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Altura (cm)</label>
+
+            <input type="number" formControlName="altura" min="1" placeholder="Ej: 170" />
+
+            @if (perfilForm.get('altura')?.invalid && perfilForm.get('altura')?.touched) {
+            <span class="error">
+              La altura es obligatoria
+            </span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Objetivo</label>
+
+            <select formControlName="objetivo">
+              <option value="">Selecciona un objetivo</option>
+              <option value="Perder peso">Perder peso</option>
+              <option value="Ganar músculo">Ganar músculo</option>
+              <option value="Mejorar resistencia">Mejorar resistencia</option>
+            </select>
+
+            @if (perfilForm.get('objetivo')?.invalid && perfilForm.get('objetivo')?.touched) {
+            <span class="error">
+              El objetivo es obligatorio
+            </span>
+            }
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button type="submit" class="btn-primary" [disabled]="perfilForm.invalid">
+
+            <lucide-icon name="save" [size]="15"></lucide-icon>
+            Guardar
+
+          </button>
+
+          @if (tienePerfil) {
+          <button type="button" class="btn-secondary" (click)="cancelar()">
+
+            <lucide-icon name="x" [size]="15"></lucide-icon>
+            Cancelar
+
+          </button>
+          }
+
+        </div>
+
+      </form>
+
+    </div>
+
+    }
+
+    @if (tienePerfil && !mostrarFormulario && perfil) {
+
+    <div class="perfil-card">
+
+      <div class="perfil-header">
+        <lucide-icon name="circle-user" [size]="48">
+        </lucide-icon>
+
+        <h2>{{ nombreUsuario }}</h2>
+      </div>
+
+      <div class="perfil-datos">
+
+        <div class="dato">
+          <span class="dato-label">Edad</span>
+          <span class="dato-valor">
+            {{ perfil.edad }} años
+          </span>
+        </div>
+
+        <div class="dato">
+          <span class="dato-label">Peso</span>
+          <span class="dato-valor">
+            {{ perfil.peso }} kg
+          </span>
+        </div>
+
+        <div class="dato">
+          <span class="dato-label">Altura</span>
+          <span class="dato-valor">
+            {{ perfil.altura }} cm
+          </span>
+        </div>
+
+        <div class="dato">
+          <span class="dato-label">Objetivo</span>
+          <span class="dato-valor">
+            {{ perfil.objetivo }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+</div>

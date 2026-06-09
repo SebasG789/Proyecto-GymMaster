@@ -1,0 +1,268 @@
+<div class="page-container">
+
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <img src="/images/Logo.png" alt="Logo" class="brand-logo" onerror="this.style.display='none'" />
+      <span class="brand-name">
+        Gym<span class="highlight">Master</span>
+      </span>
+    </div>
+
+    <a routerLink="/dashboard" class="btn-back">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al dashboard
+    </a>
+  </nav>
+
+  <div class="page-content">
+
+    <div class="page-header">
+      <div>
+        <h1>
+          <lucide-icon name="dumbbell" [size]="30"></lucide-icon>
+          {{ esCliente() ? 'Mi Rutina' : 'Rutinas' }}
+        </h1>
+
+        <p class="page-subtitle">
+          {{ esCliente()
+          ? 'Tu plan de entrenamiento personalizado'
+          : 'Gestiona las rutinas de entrenamiento' }}
+        </p>
+      </div>
+
+      @if (!esCliente()) {
+      <button class="btn-primary" (click)="nuevaRutina()">
+        <lucide-icon name="plus" [size]="16"></lucide-icon>
+        Nueva Rutina
+      </button>
+      }
+    </div>
+
+    @if (error) {
+    <div class="alert alert-error">
+      <lucide-icon name="circle-alert" [size]="16"></lucide-icon>
+      {{ error }}
+    </div>
+    }
+
+    @if (success) {
+    <div class="alert alert-success">
+      <lucide-icon name="circle-check" [size]="16"></lucide-icon>
+      {{ success }}
+    </div>
+    }
+
+    @if (mostrarFormulario && !esCliente()) {
+
+    <div class="form-card">
+
+      <h2>
+        {{ rutinaSeleccionada ? 'Editar Rutina' : 'Nueva Rutina' }}
+      </h2>
+
+      <form [formGroup]="rutinaForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Nombre</label>
+
+            <input type="text" formControlName="nombre" placeholder="Nombre de la rutina" />
+
+            @if (rutinaForm.get('nombre')?.invalid && rutinaForm.get('nombre')?.touched) {
+            <span class="error">
+              El nombre es obligatorio
+            </span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Descripción</label>
+
+            <textarea formControlName="descripcion" placeholder="Descripción de la rutina">
+              </textarea>
+
+            @if (rutinaForm.get('descripcion')?.invalid && rutinaForm.get('descripcion')?.touched) {
+            <span class="error">
+              La descripción es obligatoria
+            </span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Días por semana</label>
+            <input type="number" formControlName="diasSemana" min="1" max="7" />
+          </div>
+
+          <div class="form-group">
+            <label>ID del Cliente</label>
+            <input type="number" formControlName="clienteId" />
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+
+          <button type="submit" class="btn-primary" [disabled]="rutinaForm.invalid">
+
+            <lucide-icon name="save" [size]="16"></lucide-icon>
+            Guardar
+
+          </button>
+
+          <button type="button" class="btn-secondary" (click)="cancelar()">
+
+            <lucide-icon name="x" [size]="16"></lucide-icon>
+            Cancelar
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+    }
+
+    @if (!esCliente()) {
+
+    <div class="search-container">
+
+      <input type="text" class="search-input" placeholder="Buscar por nombre o descripción..."
+        (input)="filtrar($event)" />
+
+    </div>
+
+    }
+
+    <div class="table-container">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Días/Semana</th>
+
+            @if (!esCliente()) {
+            <th>Cliente</th>
+            <th>Acciones</th>
+            }
+
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (rutina of rutinasFiltradas; track rutina.id) {
+
+          <tr>
+
+            <td>
+              <span class="id-badge">
+                {{ rutina.id }}
+              </span>
+            </td>
+
+            <td>
+              <strong>{{ rutina.nombre }}</strong>
+            </td>
+
+            <td class="descripcion-col">
+              {{ rutina.descripcion }}
+            </td>
+
+            <td>
+              <span class="dias-badge">
+                {{ rutina.diasSemana }} días
+              </span>
+            </td>
+
+            @if (!esCliente()) {
+
+            <td>
+              <span class="cliente-badge">
+                {{ rutina.nombreCliente }}
+              </span>
+            </td>
+
+            <td class="acciones-col">
+
+              <button class="btn-edit" (click)="editarRutina(rutina)">
+
+                <lucide-icon name="pencil" [size]="14">
+                </lucide-icon>
+
+                Editar
+
+              </button>
+
+              <button class="btn-delete" (click)="eliminarRutina(rutina.id)">
+
+                <lucide-icon name="trash-2" [size]="14">
+                </lucide-icon>
+
+                Eliminar
+
+              </button>
+
+            </td>
+
+            }
+
+          </tr>
+
+          @if (esCliente() && rutina.ejercicios.length > 0) {
+
+          @for (ejercicio of rutina.ejercicios; track ejercicio.id) {
+
+          <tr class="ejercicio-row">
+
+            <td></td>
+
+            <td>
+              {{ ejercicio.nombre }}
+            </td>
+
+            <td>
+              {{ ejercicio.series }} series ×
+              {{ ejercicio.repeticiones }} reps —
+              {{ ejercicio.pesoKg }}kg
+            </td>
+
+            <td>
+              <span class="dia-badge">
+                {{ ejercicio.dia }}
+              </span>
+            </td>
+
+          </tr>
+
+          }
+
+          }
+
+          }
+
+        </tbody>
+
+      </table>
+
+      @if (rutinasFiltradas.length === 0) {
+
+      <div class="empty-state">
+        <p>
+          No se encontraron rutinas con ese criterio de búsqueda.
+        </p>
+      </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>
