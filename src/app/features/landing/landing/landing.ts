@@ -16,4 +16,8 @@ export class LandingComponent {
       elemento.scrollIntoView({ behavior: 'smooth' });
     }
   }
+  menuAbierto = false;
+  toggleMenu() {
+  this.menuAbierto = !this.menuAbierto;
+}
 }
