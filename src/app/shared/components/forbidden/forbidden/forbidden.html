@@ -1,8 +1,14 @@
 <div class="forbidden-container">
+  <div class="bg-text">403</div>
   <div class="forbidden-card">
-    <span class="forbidden-icon">🚫</span>
+    <div class="forbidden-icon-wrap">
+      <lucide-icon name="shield-off" [size]="40" color="#f87171"></lucide-icon>
+    </div>
     <h1>Acceso Denegado</h1>
-    <p>No tienes permisos para acceder a esta página.</p>
-    <a routerLink="/dashboard" class="btn-primary">Volver al Dashboard</a>
+    <p>No tienes permisos para acceder a esta pagina.</p>
+    <a routerLink="/dashboard" class="btn-primary">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Volver al Dashboard
+    </a>
   </div>
 </div>

@@ -31,7 +31,7 @@ import {
   ChevronRight,   // chevron-right
   Search,         // search
   CircleUser,
-  UserRoundX
+  UserRoundX,ShieldOff, Ruler, Weight
 
 } from 'lucide-angular';
 
@@ -42,5 +42,6 @@ export const APP_ICONS = {
   BarChart2, Plus, Save, X, ArrowLeft,
   ArrowRight, LogOut, CalendarDays, Calendar,
   Layers, Repeat, Hash, Pencil, Trash2,
-  ChevronLeft, ChevronRight, Search, CircleUser,UserRoundX
+  ChevronLeft, ChevronRight, Search, CircleUser,UserRoundX,
+  ShieldOff, Ruler, Weight
 };
