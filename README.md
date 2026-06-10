@@ -81,9 +81,9 @@ npm install
 Este comando descargará automáticamente todas las librerías necesarias para el funcionamiento de la aplicación.
 
 Instalar la libreria de iconos la cual se ejecuta con el siguiente comando
-
+```bash
 npm install lucide-angular 
-
+```
 ---
 
 ## 3. Verificar la conexión con el Backend
