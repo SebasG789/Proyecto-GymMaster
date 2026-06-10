@@ -130,7 +130,7 @@ Si restauraste la base de datos incluida en el proyecto, puedes utilizar las sig
 
 | Rol           | Correo electrónico                  |              Contraseña    |
 | ------------- | ----------------------------------------------- | --------------------------------|
-| Administrador | [Admin@gym.com]        |            admin123       |
+| Administrador | [Admin@gym.com]        |            Admin1234       |
 | Entrenador    | [Pablo@gym.com]            |            456789           | 
 | Cliente       | [sara@gym.com]                   |            123456           |
 
