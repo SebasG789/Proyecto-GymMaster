@@ -2,19 +2,25 @@
 
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="navbar-brand">
-      <img src="/images/Logo.png" alt="GymMaster Logo" class="brand-logo"/>
-      <span class="brand-name">GymMaster</span>
-    </div>
-    <div class="navbar-links">
-      <a (click)="scrollTo('servicios')">Servicios</a>
-      <a (click)="scrollTo('nosotros')">Nosotros</a>
-    </div>
-    <div class="navbar-actions">
-      <a routerLink="/auth/login" class="btn-login">Iniciar Sesión</a>
-      <a routerLink="/auth/register" class="btn-register">Regístrate Ahora</a>
-    </div>
-  </nav>
+  <div class="navbar-brand">
+    <img src="/images/Logo.png" alt="GymMaster Logo" class="brand-logo"/>
+    <span class="brand-name">GymMaster</span>
+  </div>
+  <div class="navbar-links">
+    <a (click)="scrollTo('servicios')">Servicios</a>
+    <a (click)="scrollTo('nosotros')">Nosotros</a>
+  </div>
+  <!-- Botón hamburguesa -->
+  <div class="navbar-toggle" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="navbar-actions" [class.open]="menuAbierto">
+    <a routerLink="/auth/login" class="btn-login">Iniciar Sesión</a>
+    <a routerLink="/auth/register" class="btn-register">Regístrate Ahora</a>
+  </div>
+</nav>
 
   <!-- Hero -->
   <section class="hero">
